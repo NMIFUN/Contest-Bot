@@ -1,0 +1,317 @@
+name: 🇬🇧 English
+start:
+  text: |
+    <b>Welcome!</b>
+
+    This is a tool for holding <b>draws, contests, giveaways</b>.
+
+    Created by @NMI_FUN. News channel @MasterBotsNews. Support group @MasterBotsSupport.
+  keys:
+    contests: My contests
+    create: Create a contest
+    bots: My bots
+languageSet: Language set
+subscribe:
+  notif: You are not subscribed!
+  channel: Channel
+  bot: Bot
+  text: You must subscribe to channels/groups to use the bot.
+  keys:
+    check: Check
+  success: You have subscribed to channels/groups and can now use the bot.
+joinRequest:
+  text: The bot approved your request
+back: ← Back
+create:
+  text: |
+    ✍️ <b>Enter a title</b> for your contest.
+  success: |
+    <b>You have successfully created a contest!</b>
+
+    Now let's start setting up.
+  length: The maximum length is 100 characters.
+contest:
+  error: Not possible
+  key: key
+  members: Number of members
+  of: from
+  prize: Prize places
+  winners: Winners
+  playAt: |
+    Event scheduled for ${date}, ${to} left.
+  status:
+    text: Status
+    true: completed
+    false: Started
+  keys:
+    play: Play
+    publish: Publication
+    subscription: Subscription
+    delete: Delete
+    userList: List of members
+    playAt: Schedule
+    replay: Replay
+    extra: Extra settings
+subscription:
+  onlyTextOrForward: Forward a post from a channel or enter @username/ID.
+  unsubscribe:
+    key: Can't unsubscribe
+    text:
+      true: You can't unsubscribe from a channel/group after registration
+      false: You can unsubscribe from a channel/group after registration
+  text: |
+    To add channels/groups to a mandatory subscription ✍️ <b>enter @username or channel/group IDs separated by a space</b>.
+
+    ⚠️ bot(@${username}) must be an administrator of channels/groups with the right to receive an invitation link (add members).
+    
+    <i>You can also forward the post or enter the /id command in the group</i>
+
+    For public: <code>@MasterBotsNews</code>
+    For private: <code>-1001364081847</code>
+    <code>@MasterBotsNews -1001364081847 @durov</code>
+
+    <b>List of channels/groups for obligatory subscription:</b>
+    ${channels|| 'No channels or groups found'}
+  keys:
+    addChannel: Add a channel
+    addGroup: group
+  success: |
+    Addition report:
+
+    ${list}
+  deleted: Deleted
+  notAdmin: not an admin with the right to receive an invitation link
+  missed: invalid @username/channel/group id, or does not exist
+  failedInviteLink: Failed to get invite link
+delete:
+  yes: yes
+  text: Are you sure you want to delete the contest?
+  success: You have removed the contest.
+playAt:
+  text: |
+    The date and time of the contest when the winners will be selected. ${time? '(' + time + ')' : ''}
+
+    <b>✍️ Enter date in day.month.year format and time in 24-hour hour:minute format.</b>
+    <i>Time zone: Europe/Moscow (MSK)</i>
+
+    <code>26.09.2023 12:00</code>
+  success: You have successfully set the date and time of the contest for ${time}.
+  wrong:
+    invalid: |
+      Wrong format, stick to date day.month.year and time in 24 hour hour:minute format.
+
+      Check the entered data and try again.
+    before: |
+      The date and time cannot be less than the current one, the current date and time is ${time}.
+
+      Check the entered data and try again.
+  planned: ${name}'s scheduled contest has been completed.
+  plannedError: Not enough participants to complete the scheduled contest ${name}.
+registration:
+  full: The contest is already full, registration is not possible.
+  alreadyPlayed: The contest has already been played.
+  alreadyEnteredInline: You are already registered for "${name}" contest.
+  banned: You are banned, registration is not possible.
+  notSubscribed: You are not subscribed to ${channels}.
+  checkUsername: You must have @username to participate in the contest.
+  successInline: You have successfully registered for the "${name}" contest!
+play:
+  alreadyPlayed: The contest has already been played, but you can play again.
+  notEnough: There are not enough participants to complete the contest.
+  again: Play
+  inProcess: Picking the winners, please wait!
+publish:
+  post:
+    false:
+      text: |
+        <b>➡️ Submit any post for the contest</b>
+        (text, picture, audio, document, sticker, video, animation, voice)
+
+        <b>Use variables to customize your post, such as:</b>
+        • <code>{members}</code> - number of registered members
+        • <code>{max_members}</code> - maximum number of members
+        • <code>{prize}</code> - number of prizes
+        • <code>{link}</code> - link for registration
+        • <code>{name}</code> - name of the contest
+        • <code>{subs}</code> - channels/groups for subscription
+        • <code>{time}</code> - end time
+
+        <code>Attention contest <b>{name}</b>!
+
+        Already participating {members} people.
+        To join the contest, click on the button below.</code>
+      keyboard: |
+        <b>✍️ Enter the list of buttons</b> for the started contest in the following format:
+
+        <b>Use variables to customize the button, such as:</b>
+        • <code>{members}</code> - number of registered members
+        • <code>{max_members}</code> - maximum number of members
+
+        <code>Button 1 - http://example1.com
+        Participate</code>
+
+        <i>Use "|" separator to add buttons in one row:</i>
+        <code>Button 1 - http://example1.com | Button 2 - http://example2.com
+        Participate | Button 4 - http://example4.com</code>
+    true:
+      text: |
+        <b>➡️ Submit any post to complete the contest</b>
+        (text, picture, audio, document, sticker, video, animation, voice)
+
+        <b>Use variables to customize your post, such as:</b>
+        • <code>{members}</code> - number of registered members
+        • <code>{max_members}</code> - maximum number of members
+        • <code>{prize}</code> - number of prizes
+        • <code>{link}</code> - link for registration
+        • <code>{name}</code> - name of the contest
+        • <code>{subs}</code> - channels/groups for subscription
+        • <code>{time}</code> - end time
+        • <code>{winners}</code> - winners
+
+        <code>The contest is over!
+        Participated {members} people
+
+        The winners are: {winners}.</code>
+      keyboard: |
+        <b>✍️ Enter the button list</b> for the completed contest in the following format:
+
+        <b>Use variables to customize the button, such as:</b>
+        • <code>{members}</code> - number of registered members
+        • <code>{max_members}</code> - maximum number of members
+
+        <code>Button 1 - http://example1.com
+        Participate</code>
+
+        <i>Use "|" separator to add buttons in one row:</i>
+        <code>Button 1 - http://example1.com | Button 2 - http://example2.com
+        Participate | Button 4 - http://example4.com</code>
+    errorKeyboard: Error building keyboard
+  plan:
+    text: |
+      Select a publishing option and enter the channels/groups to publish.
+    channels:
+      text: |
+        To add channels/groups for publication ✍️ <b>enter @username or channel/group IDs separated by a space</b>.
+
+        ⚠️ <b>Bot(@${username})</b> and <b>You</b> must be channel/group admins with permission to post messages.
+        
+        <i>You can also forward the post or enter the /id command in the group</i>
+
+        For public: <code>@MasterBotsNews</code>
+        For private: <code>-1001364081847</code>
+        <code>@MasterBotsNews -1001364081847 @durov</code>
+
+        <b>List of channels/groups to publish:</b>
+        ${channels|| 'No channels or groups found'}
+      success: |
+        Addition report:
+
+        ${list}
+      notAdmin: not an admin with permission to post messages
+    time:
+      text: |
+        The date and time the posts were posted. ${time? '(' + time + ')' : ''}
+
+        <b>✍️ Enter date in day.month.year format and time in 24-hour hour:minute format.</b>
+        <i>Time zone: Europe/Moscow (MSK)</i>
+
+        <code>26.09.2023 12:00</code>
+      success: You have successfully set the post date and time for ${time}.
+      planned: The scheduled posting of ${name} contest posts has been completed.
+    immediately:
+      error: You didn't set channels/groups to post
+      text: Published
+    keys:
+      immediately: Instantly
+      time: Schedule
+      channel: Channels/groups
+  text: |
+    Here you can customize the appearance (design) of the post and publish it.
+  postsUpdate:
+    text: Update posts
+    error: No posts found
+  preview:
+    true: Post link preview is enabled
+    false: Post link preview is disabled
+  keys:
+    immediately: Instantly
+    plan: Schedule
+    postsUpdate: Update posts
+    postsTypes: Post types ⤵️
+    publishTypes: Publishing methods ⤵️
+    preview: Link preview
+    edit: Edit
+    skip: Skip
+extra:
+  text: |
+    <b>Additional settings.</b>
+
+    <i>You can find out the description of the setting by clicking on its name.</i>
+  answer:
+    checkUsername:
+      true: Checking for @username is enabled.
+      false: Checking for @username is disabled.
+      info: Check if @username is available to participate in the contest.
+    prize:
+      info: Number of prizes.
+    maxMembers:
+      info: Maximum number of participants.
+  enter:
+    prize: <b>✍️ Enter the number of prizes.</b>
+    maxMembers: |
+      <b>✍️ Enter the maximum number of participants.</b>
+
+      <i>0 for ∞ members</i>
+  set:
+    wrong: Just a number.
+  keys:
+    checkUsername: Check @username
+    prize: Number of winners
+    maxMembers: Max members
+inline:
+  enter: ✍️ Enter the contest key
+  notEntered: Key not entered
+  enterValid: Enter a valid key
+  notFound: The given key does not exist
+defaultPost:
+  true: |
+    The contest is over!
+    Participated {members} people
+
+    The winners are: {winners}.
+  false: |
+    Attention contest <b>{name}</b>!
+
+    Already participating {members} people.
+    To join the contest, click on the button below.
+  keyboard: '[{members}] Participate'
+bot:
+  error: Can't
+  description: Description
+  delete:
+    text: Delete bot?
+    yes: Yes
+    success: Bot was successfully deleted
+  create:
+    text: |
+      Create a base for the bot in @BotFather:
+
+      - run @BotFather and send him the /newbot command;
+      - come up with and send any name for the bot (this is the name that everyone will see from above);
+      — come up with and send any link (link) for the bot. It is important that the link has the ending “bot” and this combination has not been taken by another user.
+
+      2. Send the bot's token here:
+
+      The token is a long set of characters that you received by completing the previous step. Copy this character set, or just forward the entire message with the token from @BotFather right here.
+
+      💡 Attention: do not connect bots that are used in other services.
+    error: Invalid token
+  updateToken:
+    text: |
+      ✍️ Enter a token or send a creation message from @BotFather.
+    error: Invalid token
+  keys:
+    updateToken: Update token
+    delete: Delete
+    create: Create a new bot
+  onlyOne: Only one draw per connected bot.

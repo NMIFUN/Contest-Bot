@@ -1,0 +1,45 @@
+{
+  "dependencies": {
+    "axios": "^1.2.2",
+    "bull": "^4.10.2",
+    "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.11.0",
+    "js-yaml": "^4.1.0",
+    "mongoose": "^6.8.2",
+    "node-schedule": "^2.1.0",
+    "short-unique-id": "^4.4.4",
+    "telegraf": "github:NMIFUN/telegraf",
+    "telegraf-i18n": "^6.6.0",
+    "telegraf-ratelimit": "^2.0.0",
+    "xlsx-stream-writer": "^0.2.6"
+  },
+  "name": "contest",
+  "version": "3.0.0",
+  "description": "Contest Master Telegram Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pm2 start pm2.config.js",
+    "restart": "pm2 restart pm2.config.js",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NMIFUN/Contest.git"
+  },
+  "author": "NMIFUN",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^2.8.1"
+  }
+}
