@@ -8,6 +8,7 @@ const User = require('../../../models/user')
 
 const sleep = (millis) => new Promise((resolve) => setTimeout(resolve, millis))
 const shift = 5000
+let sleepTime = 18
 
 const { Telegraf } = require('telegraf')
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -25,14 +26,16 @@ function imitateAsync() {}
   }
   if (mail.lang !== null) mailConfig.lang = mail.lang
 
-  const usersCount = await User.countDocuments()
+  const usersCount = await User.countDocuments(mailConfig)
 
   mail.status = 'doing'
   let y = 0
-  if (mail.success + mail.unsuccess === 0) {
-    mail.startDate = Date.now()
-    mail.all = usersCount
-  } else y = (mail.success + mail.unsuccess) / shift
+
+  if (mail.success + mail.unsuccess === 0) mail.startDate = Date.now()
+  else y = (mail.success + mail.unsuccess) / shift
+
+  mail.all = usersCount
+
   await mail.save()
 
   const message = await bot.telegram.sendCopy(
@@ -48,7 +51,10 @@ function imitateAsync() {}
   const message1 = { ...message, chat: {} }
 
   for (y; y <= Math.ceil(mail.all / shift); y++) {
-    const users = await User.find({ id: { $ne: mail.uid } }, { id: 1 })
+    const users = await User.find(
+      { ...mailConfig, id: { $ne: mail.uid } },
+      { id: 1 }
+    )
       .limit(shift)
       .skip(y * shift)
 
@@ -82,10 +88,11 @@ function imitateAsync() {}
         const find = results[findIndex]
         if (find) {
           await sleep(parseInt(find.result.match(/\d+/)) * 1000)
+          sleepTime += 2
           i = find.i - 1
         } else {
           const success = results.filter((result) => result.result).length
-          await sleep(success * 16)
+          await sleep(success * sleepTime)
         }
 
         results

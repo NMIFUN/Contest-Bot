@@ -31,7 +31,10 @@ module.exports = async (ctx) => {
         'admin_addBotSubscription'
       )
     ],
-    [Markup.callbackButton('Принятие заявок', 'admin_addJoin')]
+    [
+      Markup.callbackButton('Принятие заявок', 'admin_addJoin'),
+      Markup.callbackButton('Список розыгрышей', 'admin_contests')
+    ]
   ]).extra({ parse_mode: 'HTML' })
 
   ctx.user.state = null

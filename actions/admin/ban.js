@@ -1,3 +1,4 @@
+const config = require('../../config.json')
 const admin = require('../../helpers/admin.js')
 const User = require('../../models/user.js')
 
@@ -14,6 +15,9 @@ module.exports = async (ctx) => {
       }
     )
   } else {
+    if (config.admins.includes(Number(ctx.message.text)))
+      return ctx.replyWithHTML('Нельзя забанить админа')
+
     const user = await User.findOne({ id: ctx.message.text })
     if (!user) {
       return ctx.reply(

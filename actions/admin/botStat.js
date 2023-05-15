@@ -8,7 +8,8 @@ module.exports = async (ctx) => {
   if (!config.botStat) {
     config.botStat = {
       send: false,
-      alive: false
+      alive: false,
+      botMan: false
     }
   }
 
@@ -19,7 +20,7 @@ module.exports = async (ctx) => {
     await fs.writeFile('config.json', JSON.stringify(config, null, '  '))
   }
 
-  if (['alive', 'send'].includes(ctx.state[0])) {
+  if (['alive', 'send', 'botMan'].includes(ctx.state[0])) {
     config.botStat[ctx.state[0]] = !config.botStat[ctx.state[0]]
 
     await fs.writeFile('config.json', JSON.stringify(config, null, '  '))
@@ -35,8 +36,7 @@ module.exports = async (ctx) => {
   }
 
   return ctx[ctx.message ? 'replyWithHTML' : 'editMessageText'](
-    `
-BotStat.io настройка
+    `BotStat.io настройка
 
 Текущий ключ: ${
       config.botStat.key || 'нет'
@@ -44,14 +44,22 @@ BotStat.io настройка
     Markup.inlineKeyboard([
       [
         Markup.callbackButton(
-          `Отправлять ${config.botStat.send ? '✅' : '❌'}`,
+          `BotStat ${config.botStat.send ? '✅' : '❌'}`,
           'admin_botStat_send'
         ),
+        Markup.callbackButton('Ключ', 'admin_botStat_token')
+      ],
+      [
+        Markup.callbackButton(
+          `BotMan ${config.botStat.botMan ? '✅' : '❌'}`,
+          'admin_botStat_botMan'
+        )
+      ],
+      [
         Markup.callbackButton(
           `Живые ${config.botStat.alive ? '✅' : '❌'}`,
           'admin_botStat_alive'
-        ),
-        Markup.callbackButton('Ключ', 'admin_botStat_token')
+        )
       ],
       [Markup.callbackButton('‹ Назад', 'admin_back')]
     ]).extra({ parse_mode: 'HTML' })

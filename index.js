@@ -115,11 +115,11 @@ const start = async () => {
   }
 }
 
-if (cluster.isMaster) {
-  for (let i = 0; i < os.cpus().length; i++) cluster.fork()
-} else start()
+if (cluster.isMaster) for (let i = 0; i < os.cpus().length; i++) cluster.fork()
+else start()
 
 const updateStat = require('./helpers/updateStat')
+const updateWebhook = require('./helpers/updateWebhook')
 const botStat = require('./helpers/botStat')
 
 const schedule = require('node-schedule')
@@ -130,6 +130,12 @@ function r() {}
 ;(async () => {
   const result = await Mail.findOne({ status: 'doing' })
   if (result) lauchWorker(result._id)
+
+  if (cluster.isMaster)
+    await Promise.all([
+      updateWebhook(process.env.BOT_TOKEN, bot),
+      updateWebhook(process.env.BOT_TOKEN1, bot)
+    ])
 })()
 
 schedule.scheduleJob('* * * * *', async () => {

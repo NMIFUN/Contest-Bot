@@ -29,6 +29,8 @@ module.exports = async (ctx) => {
   } else {
     const list = ctx.message.text.split(' ')
 
+    if (!config.subsChannels?.length) config.subsChannels = []
+
     let find = config.subsChannels.findIndex((o) => o.id === Number(list[0]))
     if (find !== -1) config.subsChannels.splice(find, 1)
     else {

@@ -1,15 +1,24 @@
-/* eslint-disable no-dupe-keys */
 const View = require('../models/view')
+
 const { randomInt } = require('crypto')
 
 module.exports = async (ctx) => {
   let views = await View.find({
-    $or: [
-      { startDate: { $gte: new Date() } },
-      { startDate: { $exists: false } }
+    $and: [
+      {
+        $or: [
+          { startDate: { $gte: new Date() } },
+          { startDate: { $exists: false } }
+        ]
+      },
+      {
+        $or: [
+          { endDate: { $lte: new Date() } },
+          { endDate: { $exists: false } }
+        ]
+      },
+      { $or: [{ lang: ctx.user.lang }, { lang: null }] }
     ],
-    $or: [{ endDate: { $lte: new Date() } }, { endDate: { $exists: false } }],
-    $or: [{ lang: ctx.user.lang }, { lang: null }],
     status: 'doing'
   })
 

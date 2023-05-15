@@ -35,10 +35,12 @@ module.exports = async (ctx) => {
       )
     }
 
-    const [result, alive] = await Promise.all([
+    const [result, alive, subscribed] = await Promise.all([
       Ref.findOne({ name: ctx.state[0] }),
 
-      User.countDocuments({ from: `ref-${ctx.state[0]}`, alive: true })
+      User.countDocuments({ from: `ref-${ctx.state[0]}`, alive: true }),
+
+      User.countDocuments({ from: `ref-${ctx.state[0]}`, subscribed: true })
     ])
 
     return ctx[ctx.message ? 'reply' : 'editMessageText'](
@@ -49,21 +51,28 @@ module.exports = async (ctx) => {
 Уникальных переходов: ${result.uniqueCount.format(0)} (${Math.round(
         (result.uniqueCount / result.count) * 100
       )}%) ${
-        result.price ? `${(result.price / result.uniqueCount).format(1)}` : ''
+        result.price
+          ? `${(result.price / result.uniqueCount).format(1)} р.ед`
+          : ''
       }
 Новых пользователей: ${result.newCount.format(0)} (${Math.round(
         (result.newCount / result.uniqueCount) * 100
       )}%) ${
-        result.price ? `${(result.price / result.newCount).format(1)}` : ''
+        result.price ? `${(result.price / result.newCount).format(1)} р.ед` : ''
+      }
+Прошедших ОП: ${subscribed.format(0)} (${Math.round(
+        (subscribed / result.newCount) * 100
+      )}%)  ${
+        result.price ? `${(result.price / subscribed).format(1)} р.ед` : ''
       }
 Живых пользователей: ${alive.format(0)} (${Math.round(
         (alive / result.newCount) * 100
-      )}%)  ${result.price ? `${(result.price / alive).format(1)}` : ''}
-${result.price ? `Стоимость: ${result.price}\n` : ''}
+      )}%)  ${result.price ? `${(result.price / alive).format(1)} р.ед` : ''}
+${result.price ? `Стоимость: ${result.price.format(1)} р.ед\n` : ''}
 Первый переход: ${new Date(result.first).toLocaleString('ru', dateConfig)}
 Последний переход: ${new Date(result.last).toLocaleString('ru', dateConfig)}
 
-Ссылка: https://t.me/${ctx.botInfo.username}?start=ref-${result.name}
+Ссылка: https://t.me/${process.env.BOT_USERNAME}?start=ref-${result.name}
 `,
       Markup.inlineKeyboard([
         [
@@ -87,7 +96,7 @@ ${result.price ? `Стоимость: ${result.price}\n` : ''}
   if (!count) {
     return ctx.editMessageText(
       `Реферальных ссылок еще не существует.\n
-<code>https://t.me/${ctx.botInfo.username}?start=ref-</code>code, переходя по такой ссылке пользователь автоматически учитывается в списке.
+<code>https://t.me/${process.env.BOT_USERNAME}?start=ref-</code>code, переходя по такой ссылке пользователь автоматически учитывается в списке.
 code - любой код для отличия ссылки от других ссылок`,
       Markup.inlineKeyboard([
         Markup.callbackButton('‹ Назад', 'admin_back')
@@ -118,7 +127,7 @@ code - любой код для отличия ссылки от других с
 
   return ctx.editMessageText(
     `
-<code>https://t.me/${ctx.botInfo.username}?start=ref-</code>code
+<code>https://t.me/${process.env.BOT_USERNAME}?start=ref-</code>code
 
 ${content.join('\n')}`,
     {

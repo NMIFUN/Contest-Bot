@@ -1,4 +1,6 @@
 const Markup = require('telegraf/markup')
+const ObjectId = require('mongoose').Types.ObjectId
+
 const dateConfig = {
   year: 'numeric',
   month: 'numeric',
@@ -6,7 +8,6 @@ const dateConfig = {
   hour: 'numeric',
   minute: 'numeric'
 }
-const { ObjectId } = require('mongodb')
 const statuses = {
   stopped: '⏹ Рассылка остановлена',
   paused: '⏸ Рассылка приостановлена',
@@ -14,7 +15,6 @@ const statuses = {
   doing: '🕒 Рассылка выполняется',
   notStarted: '🛠 Рассылка еще не начата'
 }
-
 const parts = [
   '▓▓▓▓▓▓▓▓▓▓',
   '█▓▓▓▓▓▓▓▓▓',
@@ -38,7 +38,7 @@ module.exports = async (ctx) => {
   else if (isNaN(ctx.state[0])) {
     a =
       (await ctx.Mail.countDocuments({
-        _id: { $gte: ObjectId(ctx.state[0]) }
+        _id: { $gte: new ObjectId(ctx.state[0]) }
       })) - 1
   } else a = Number(ctx.state[0])
 

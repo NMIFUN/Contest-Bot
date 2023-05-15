@@ -76,6 +76,8 @@ module.exports = async (ctx, next) => {
     })
   }
 
+  ctx.user.subscribed = true
+
   if (ctx.callbackQuery?.data === 'subscription') {
     await ctx.answerCbQuery()
     await ctx.editMessageText(ctx.i18n.t('subscribe.success'))

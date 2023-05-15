@@ -43,7 +43,7 @@ commandRouter.on('admin', require('../actions/admin'))
 commandRouter.on('start', require('../actions/start'))
 commandRouter.on('lang', require('../actions/translateBot'))
 
-commandRouter.on('contest', require('../actions/admin/contest'))
+commandRouter.on('contest', require('../actions/admin/contestCommand'))
 
 commandRouter.on('id', (ctx) => ctx.reply(ctx.chat.id))
 

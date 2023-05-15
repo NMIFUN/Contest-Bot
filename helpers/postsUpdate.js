@@ -5,11 +5,9 @@ const Participant = require('../models/participant')
 
 const errorHandler = (err, post, contest) => {
   if (
-    [
-      "Bad Request: message can't be edited",
-      'Bad Request: message not found',
-      ' Bad Request: chat not found'
-    ].includes(err.description)
+    ['Bad Request: message not found', ' Bad Request: chat not found'].includes(
+      err.description
+    )
   )
     return Contest.updateOne(
       { _id: contest._id },
