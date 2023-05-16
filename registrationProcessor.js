@@ -178,6 +178,9 @@ if (cluster.isMaster) {
       }] ${job.data.from.id} on ${contest._id} completed`
     )
 
+    contest.membersCount++
+    contest.participantsCount = contest.membersCount
+
     return Promise.all([
       bot.telegram
         .answerCbQuery(
@@ -201,6 +204,10 @@ if (cluster.isMaster) {
         },
         { upsert: true }
       ).catch(() => {}),
+      Contest.updateOne(
+        { _id: contest._id },
+        { $set: { participantsCount: contest.participantsCount } }
+      ),
       contest.posts.findIndex((post) =>
         post.inlineMessageId
           ? post.inlineMessageId === job.data.inline_message_id

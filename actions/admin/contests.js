@@ -6,22 +6,24 @@ const { Markup } = require('telegraf')
 
 const defaultShift = 20
 
+const query = { 'config.status': false, deleted: false }
+
 module.exports = async (ctx) => {
   if (!config.admins.includes(ctx.from.id)) return
 
   if (!ctx.state[0]) ctx.state[0] = 0
   const shift = Number(ctx.state[0])
-  const count = await Contest.countDocuments({ 'config.status': false })
+  const count = await Contest.countDocuments(query)
 
   if (!count) return
 
   if (shift < 0 || shift >= count) return ctx.answerCbQuery('Нельзя', true)
   await ctx.answerCbQuery()
 
-  const results = await Contest.find({ 'config.status': false })
+  const results = await Contest.find(query)
     .skip(shift)
     .limit(defaultShift)
-    .sort({ _id: -1 })
+    .sort({ participantsCount: -1, _id: -1 })
 
   const counts = await Promise.all(
     results.map((result) =>
@@ -40,7 +42,17 @@ module.exports = async (ctx) => {
   return ctx.editMessageText(
     `<b>Список розыгрышей:</b>
 ${content.join('\n')}`,
-    Markup.inlineKeyboard([Markup.callbackButton(`‹ Назад`, 'admin')]).extra({
+    Markup.inlineKeyboard([
+      [
+        Markup.callbackButton('◀️', `admin_contests_${shift - defaultShift}`),
+        Markup.callbackButton(
+          `${shift + results.length}/${count} 🔄`,
+          `admin_contests_${shift}`
+        ),
+        Markup.callbackButton('▶️', `admin_contests_${shift + defaultShift}`)
+      ],
+      [Markup.callbackButton(`‹ Назад`, 'admin')]
+    ]).extra({
       parse_mode: 'HTML',
       disable_web_page_preview: true
     })

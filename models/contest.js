@@ -39,7 +39,11 @@ let Contest = mongoose.Schema({
   posts: Array,
   deleted: { type: Boolean, default: false },
   language: String,
-  bot: Number
+  bot: Number,
+  participantsCount: {
+    type: Number,
+    default: 0
+  }
 })
 Contest = mongoose.model('Contest', Contest)
 
