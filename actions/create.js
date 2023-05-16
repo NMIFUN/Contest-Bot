@@ -60,9 +60,11 @@ module.exports = async (ctx) => {
             ctx.user.username
               ? `t.me/${ctx.user.username}`
               : `tg://user?id=${ctx.user.id}`
-          }'>${ctx.user.name}</a> (<code>${ctx.user.id}</code>) создал "${
-            contest.name
-          }"`,
+          }'>${ctx.user.name}</a> (<code>${
+            ctx.user.id
+          }</code>) создал <a href='https://t.me/${
+            ctx.botInfo.username
+          }?start=adminContest-${contest._id}'>${contest.name}</a>`,
           {
             parse_mode: 'HTML',
             disable_web_page_preview: true

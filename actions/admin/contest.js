@@ -43,9 +43,11 @@ module.exports = async (ctx) => {
   )
   const posts = contest.posts?.map(
     (post, index) =>
-      `<a href='https://t.me/c/${post.chatId.toString().replace('-100', '')}/${
-        post.messageId
-      }'>${index + 1}${post.chatId ? '✅' : '❌'}</a>`
+      `<a href='https://t.me/c/${post.chatId
+        ?.toString()
+        ?.replace('-100', '')}/${post.messageId}'>${index + 1}${
+        post.chatId ? '✅' : '❌'
+      }</a>`
   )
 
   return ctx[ctx.message ? 'reply' : 'editMessageText'](
