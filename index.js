@@ -124,6 +124,8 @@ const botStat = require('./helpers/botStat')
 
 const schedule = require('node-schedule')
 const Mail = require('./models/mail')
+const Contest = require('./models/contest')
+
 const lauchWorker = require('./actions/admin/mail/lauchWorker')
 
 function r() {}
@@ -131,11 +133,12 @@ function r() {}
   const result = await Mail.findOne({ status: 'doing' })
   if (result) lauchWorker(result._id)
 
-  if (cluster.isMaster)
-    await Promise.all([
-      updateWebhook(process.env.BOT_TOKEN, bot),
-      updateWebhook(process.env.BOT_TOKEN1, bot)
-    ])
+  if (!cluster.isMaster) return
+
+  await Promise.all([
+    updateWebhook(process.env.BOT_TOKEN, bot),
+    updateWebhook(process.env.BOT_TOKEN1, bot)
+  ])
 })()
 
 schedule.scheduleJob('* * * * *', async () => {

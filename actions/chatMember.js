@@ -20,7 +20,7 @@ module.exports = async (ctx) => {
 
     participants.filter(
       (participant) =>
-        participant.contest.subscription.findIndex(
+        participant.contest?.subscription.findIndex(
           (channel) =>
             channel.id === ctx.chat.id &&
             participant.contest.config.status === false

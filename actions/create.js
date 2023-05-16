@@ -53,19 +53,22 @@ module.exports = async (ctx) => {
 
     return Promise.all([
       ctx.replyWithHTML(text, keyboard.extra()),
-      ctx.telegram.sendMessage(
-        process.env.NOTIFY_CHAT,
-        `<a href='${
-          ctx.user.username
-            ? `t.me/${ctx.user.username}`
-            : `tg://user?id=${ctx.user.id}`
-        }'>${ctx.user.name}</a> (<code>${ctx.user.id}</code>) создал "${
-          contest.name
-        }"`,
-        {
-          parse_mode: 'HTML'
-        }
-      )
+      ctx.telegram
+        .sendMessage(
+          process.env.NOTIFY_CHAT,
+          `<a href='${
+            ctx.user.username
+              ? `t.me/${ctx.user.username}`
+              : `tg://user?id=${ctx.user.id}`
+          }'>${ctx.user.name}</a> (<code>${ctx.user.id}</code>) создал "${
+            contest.name
+          }"`,
+          {
+            parse_mode: 'HTML',
+            disable_web_page_preview: true
+          }
+        )
+        .catch((err) => console.error(err))
     ])
   }
 }
