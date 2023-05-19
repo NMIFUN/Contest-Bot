@@ -1,3 +1,5 @@
+const Bot = require('../models/bot')
+
 module.exports = async (token, bot) => {
   bot.token = token
 
@@ -17,4 +19,6 @@ module.exports = async (token, bot) => {
       secret_token: token.replace(':', '-----')
     }
   )
+
+  await Bot.updateOne({ id: token.split(':')[0] }, { token })
 }

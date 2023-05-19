@@ -63,6 +63,7 @@ schedule.scheduleJob('* * * * *', async () => {
   for (let contest of playAt) {
     const findBot = await Bot.findOne({ id: contest.bot })
     bot.token = findBot.token
+    bot.username = findBot.username
 
     const result = await play(contest, bot.telegram)
 
@@ -78,7 +79,7 @@ schedule.scheduleJob('* * * * *', async () => {
     )
 
     await Promise.all([
-      postsUpdate(contest, bot.telegram),
+      postsUpdate(contest, bot),
       bot.telegram.sendMessage(
         contest.creator,
         i18n.t(contest.language, 'playAt.planned', { name: contest.name }),
@@ -92,6 +93,7 @@ schedule.scheduleJob('* * * * *', async () => {
   for (const contest of posts) {
     const findBot = await Bot.findOne({ id: contest.bot })
     bot.token = findBot.token
+    bot.username = findBot.username
 
     const membersCount = await Participant.countDocuments({
       contest: contest._id,

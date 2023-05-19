@@ -4,6 +4,8 @@ const Contest = require('../models/contest')
 const Participant = require('../models/participant')
 
 const errorHandler = (err, post, contest) => {
+  console.error(`UPDATE POST ${contest._id}`, post, err)
+
   if (
     ['Bad Request: message not found', ' Bad Request: chat not found'].includes(
       err.description
