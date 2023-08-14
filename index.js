@@ -46,12 +46,7 @@ bot.use(async (ctx, next) => {
           username: process.env.BOT_USERNAME,
           id: Number(process.env.BOT_ID)
         }
-      : bot.token === process.env.BOT_TOKEN1
-      ? {
-          token: process.env.BOT_TOKEN1,
-          username: process.env.BOT_USERNAME1,
-          id: Number(process.env.BOT_ID1)
-        }
+
       : await Bot.findOne({ token: bot.token })
   if (!findBot) return
 
@@ -137,7 +132,6 @@ function r() {}
 
   await Promise.all([
     updateWebhook(process.env.BOT_TOKEN, bot),
-    updateWebhook(process.env.BOT_TOKEN1, bot)
   ])
 })()
 

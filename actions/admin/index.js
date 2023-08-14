@@ -5,7 +5,7 @@ module.exports = async (ctx) => {
   if (!config.admins.includes(ctx.from.id)) return
 
   const text =
-    '<b>Админ панель</b>\n\n<tg-spoiler><i>Developed by @NMI_FUN</i></tg-spoiler>'
+    '<b>Админ панель</b>\n\n<tg-spoiler><i>Developed by @nmime</i></tg-spoiler>'
 
   const keyboard = Markup.inlineKeyboard([
     [

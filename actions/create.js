@@ -34,9 +34,6 @@ module.exports = async (ctx) => {
       })
     ])
 
-    if (ctx.botInfo.id === Number(process.env.BOT_TOKEN1))
-      return ctx.replyWithHTML(ctx.i18n.t(`bot.noContestsInSecondBot`))
-
     ctx.user.state = null
     ctx.user.contests.created = ctx.user.contests.created + 1
 
